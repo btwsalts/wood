@@ -19,9 +19,12 @@
     <nav class="nav">
       <a href="#work">Work</a>
       <a href="#process">Process</a>
+      <a href="#journal">Journal</a>
       <a href="#about">About</a>
+      <a href="login.html">Client login</a>
       <a href="#contact" class="nav-cta">Start a Project</a>
     </nav>
+    <span class="scroll-progress" aria-hidden="true"></span>
   </header>
 
   <main>
@@ -60,22 +63,29 @@
         <p class="section-description">Furniture, joinery and one-off pieces created for homes and spaces that deserve something personal.</p>
       </div>
 
+      <div class="work-filters" role="group" aria-label="Filter selected work">
+        <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">All work</button>
+        <button class="filter-button" type="button" data-filter="seating" aria-pressed="false">Seating</button>
+        <button class="filter-button" type="button" data-filter="dining" aria-pressed="false">Dining</button>
+        <button class="filter-button" type="button" data-filter="storage" aria-pressed="false">Storage</button>
+      </div>
+
       <div class="gallery">
-        <article class="project project-large">
+        <article class="project project-large" data-project-key="walnut-lounge" data-category="seating">
           <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1400&q=85" alt="Handcrafted wooden furniture in a warm interior">
-          <div class="project-info"><span>01</span><h3>Walnut Lounge</h3><p>Walnut · Hand-finished</p></div>
+          <div class="project-info"><span>01</span><h3><a href="project.html?project=walnut-lounge">Walnut Lounge</a></h3><p>Walnut · Hand-finished</p><button class="favorite-button" type="button" aria-label="Save Walnut Lounge" aria-pressed="false">♡</button></div>
         </article>
-        <article class="project">
+        <article class="project" data-project-key="oak-dining-table" data-category="dining">
           <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=85" alt="Minimal wooden dining interior">
-          <div class="project-info"><span>02</span><h3>Oak Dining Table</h3><p>White Oak · Custom</p></div>
+          <div class="project-info"><span>02</span><h3><a href="project.html?project=oak-dining-table">Oak Dining Table</a></h3><p>White Oak · Custom</p><button class="favorite-button" type="button" aria-label="Save Oak Dining Table" aria-pressed="false">♡</button></div>
         </article>
-        <article class="project">
+        <article class="project" data-project-key="studio-chair" data-category="seating">
           <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=1000&q=85" alt="Wooden chair and furniture detail">
-          <div class="project-info"><span>03</span><h3>Studio Chair</h3><p>Ash · Joinery</p></div>
+          <div class="project-info"><span>03</span><h3><a href="project.html?project=studio-chair">Studio Chair</a></h3><p>Ash · Joinery</p><button class="favorite-button" type="button" aria-label="Save Studio Chair" aria-pressed="false">♡</button></div>
         </article>
-        <article class="project project-wide">
+        <article class="project project-wide" data-project-key="lowline-cabinet" data-category="storage">
           <img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=1400&q=85" alt="Modern wood furniture">
-          <div class="project-info"><span>04</span><h3>Lowline Cabinet</h3><p>American Walnut · Bespoke</p></div>
+          <div class="project-info"><span>04</span><h3><a href="project.html?project=lowline-cabinet">Lowline Cabinet</a></h3><p>American Walnut · Bespoke</p><button class="favorite-button" type="button" aria-label="Save Lowline Cabinet" aria-pressed="false">♡</button></div>
         </article>
       </div>
     </section>
@@ -100,10 +110,28 @@
       </div>
     </section>
 
+    <section class="guides" id="guides">
+      <div class="section-heading"><div><p class="section-label">05 / MATERIALS & CARE</p><h2>Choose well.<br><em>Live with it.</em></h2></div><p class="section-description">A few useful notes for choosing timber and keeping a finished piece beautiful.</p></div>
+      <div class="guide-grid">
+        <article><span>Material guide</span><h3>Oak, walnut or ash?</h3><p>Oak brings a light, structured grain. Walnut is deeper and more dramatic. Ash is pale, tactile and wonderfully resilient.</p></article>
+        <article><span>Care guide</span><h3>Keep the surface honest.</h3><p>Dust with a soft cloth, wipe spills quickly, and refresh an oil finish when the timber begins to feel dry.</p></article>
+        <article><span>Planning guide</span><h3>Measure twice.</h3><p>Photograph the room, note doorways and leave space for movement. These details make a beautiful piece work harder.</p></article>
+      </div>
+    </section>
+
+    <section class="journal" id="journal">
+      <div class="section-heading"><div><p class="section-label">06 / WORKSHOP JOURNAL</p><h2>Notes from<br><em>the bench.</em></h2></div><a class="arrow-link" href="#journal">View all notes <span>→</span></a></div>
+      <div class="journal-grid">
+        <article><div class="journal-image journal-image-one"></div><p class="journal-meta">MAY 18, 2026 · MATERIALS</p><h3>Why this walnut came home with me</h3><p>Choosing a board is part instinct, part patience, and a close look at how the grain wants to move.</p></article>
+        <article><div class="journal-image journal-image-two"></div><p class="journal-meta">APR 29, 2026 · JOINERY</p><h3>The quiet strength of a good joint</h3><p>The best joinery disappears into daily life. Here is what I look for before the glue ever comes out.</p></article>
+        <article><div class="journal-image journal-image-three"></div><p class="journal-meta">APR 10, 2026 · STUDIO</p><h3>A slower way to make a chair</h3><p>Small adjustments at the bench are what turn a technically sound object into a comfortable one.</p></article>
+      </div>
+    </section>
+
     <section class="about" id="about">
       <div class="about-image"></div>
       <div class="about-copy">
-        <p class="section-label">05 / THE STUDIO</p>
+        <p class="section-label">07 / THE STUDIO</p>
         <h2>A small workshop.<br><em>A personal approach.</em></h2>
         <p>This is independent woodworking with a focus on honest materials, strong proportions and details that reward a closer look.</p>
         <p>Whether it is a dining table built around family dinners, a cabinet designed for an awkward corner, or a one-off piece with no blueprint, every project receives the same attention.</p>
@@ -111,12 +139,66 @@
       </div>
     </section>
 
+    <section class="availability" id="availability">
+      <div>
+        <p class="section-label">08 / COMMISSION AVAILABILITY</p>
+        <h2>Next openings<br><em>on the calendar.</em></h2>
+      </div>
+      <div class="availability-card">
+        <p class="availability-status"><span></span> Accepting new commissions</p>
+        <div class="availability-row"><span>Consultations</span><strong>October 2026</strong></div>
+        <div class="availability-row"><span>Workshop start</span><strong>December 2026</strong></div>
+        <p class="availability-note">Small pieces may be scheduled sooner. Share your idea and I will suggest the best next step.</p>
+        <a class="arrow-link" href="#builder">Check your project fit <span>→</span></a>
+      </div>
+    </section>
+
+    <section class="builder" id="builder">
+      <div class="section-heading">
+        <div><p class="section-label">09 / COMMISSION BUILDER</p><h2>Shape the brief<br><em>before we meet.</em></h2></div>
+        <p class="section-description">Choose a starting point and get a planning estimate. Nothing is fixed until we talk.</p>
+      </div>
+      <ol class="builder-progress" aria-label="Commission brief progress"><li class="is-active" data-progress-step="1"><span>01</span> The piece</li><li data-progress-step="2"><span>02</span> The scale</li><li data-progress-step="3"><span>03</span> The brief</li></ol>
+      <form class="builder-form" data-builder-form>
+        <div class="builder-fields">
+          <div class="builder-step is-active" data-builder-step="1"><p class="builder-step-title">Start with the object and its character.</p><label>Piece type<select name="piece" required><option value="Dining table">Dining table</option><option value="Cabinet">Cabinet</option><option value="Seating">Seating</option><option value="Shelving">Shelving</option><option value="Something else">Something else</option></select></label><label>Wood species<select name="wood" required><option value="White oak">White oak</option><option value="Walnut">Walnut</option><option value="Ash">Ash</option><option value="Cherry">Cherry</option></select></label><button class="button button-dark builder-next" type="button">Next: scale <span>→</span></button></div>
+          <div class="builder-step" data-builder-step="2"><p class="builder-step-title">A useful estimate starts with proportions.</p><label>Approximate size<select name="size" required><option value="Small">Small: up to 1 m</option><option value="Medium">Medium: 1-2 m</option><option value="Large">Large: over 2 m</option></select></label><label>Budget range<select name="budget" required><option value="1500">$1,000 - $2,000</option><option value="3000">$2,000 - $4,000</option><option value="5500">$4,000 - $7,000</option><option value="8000">$7,000+</option></select></label><div class="builder-step-actions"><button class="button builder-back" type="button">← Back</button><button class="button button-dark builder-next" type="button">Next: details <span>→</span></button></div></div>
+          <div class="builder-step" data-builder-step="3"><p class="builder-step-title">Add anything that will help the first conversation.</p><label>Reference image<input name="reference" type="file" accept="image/*"><span class="reference-preview" data-reference-preview hidden><img alt="Selected reference preview"><span data-reference-name></span></span></label><label class="builder-wide">Tell me about the space<textarea name="notes" placeholder="What are you imagining? Include dimensions, references, or practical needs."></textarea></label><div class="builder-step-actions"><button class="button builder-back" type="button">← Back</button><button class="button button-dark" type="submit">Save this brief <span>→</span></button></div></div>
+        </div>
+        <aside class="estimate-card"><p class="section-label">PLANNING ESTIMATE</p><strong data-estimate>$1,000 - $2,000</strong><p data-estimate-copy>Based on a small white oak dining table. The final quote follows a design conversation.</p><p class="estimate-note">A starting range, never a substitute for a conversation.</p><p class="form-message" aria-live="polite"></p><a class="button button-dark inquiry-button" data-builder-inquiry href="mailto:hello@example.com" hidden>Send this brief <span>→</span></a></aside>
+      </form>
+    </section>
+
+    <section class="dashboard" id="dashboard">
+      <div><p class="section-label">YOUR PROJECT DESK</p><h2>Keep the good<br><em>ideas close.</em></h2><p class="dashboard-copy">Saved briefs and favorite pieces stay in this browser, ready for your next visit.</p><div class="dashboard-actions"><a class="arrow-link" href="#builder">Continue your brief <span>→</span></a><button class="text-button" type="button" data-clear-dashboard>Clear saved data</button></div></div>
+      <div class="dashboard-panel"><div><div class="dashboard-heading"><p class="section-label">SAVED BRIEF</p><span class="dashboard-status" data-brief-status>Not started</span></div><p data-saved-brief>No brief saved yet. Build one above to see it here.</p></div><div><div class="dashboard-heading"><p class="section-label">FAVORITES</p><span class="dashboard-status" data-favorite-count>0 saved</span></div><div class="favorite-grid" data-favorite-grid><p data-favorites>No saved pieces yet. Tap the heart on a project you love.</p></div></div></div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+      <p class="section-label">11 / FROM THE PEOPLE WHO LIVE WITH IT</p>
+      <div class="testimonial-marquee" aria-label="Client testimonials">
+        <div class="testimonial-track">
+          <div class="testimonial-set">
+            <blockquote>“The table changed the way we use the room. It feels like it has always belonged here.”<cite>— Mara & Julian, Oak Dining Table</cite></blockquote>
+            <blockquote>“Thoughtful from the first sketch to delivery. We felt involved without ever having to manage the process.”<cite>— Anika R., Lowline Cabinet</cite></blockquote>
+            <blockquote>“The chair is quiet, comfortable and beautifully made. Every detail feels considered.”<cite>— Thomas K., Studio Chair</cite></blockquote>
+          </div>
+          <div class="testimonial-set" aria-hidden="true">
+            <blockquote>“The table changed the way we use the room. It feels like it has always belonged here.”<cite>— Mara & Julian, Oak Dining Table</cite></blockquote>
+            <blockquote>“Thoughtful from the first sketch to delivery. We felt involved without ever having to manage the process.”<cite>— Anika R., Lowline Cabinet</cite></blockquote>
+            <blockquote>“The chair is quiet, comfortable and beautifully made. Every detail feels considered.”<cite>— Thomas K., Studio Chair</cite></blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="contact" id="contact">
-      <p class="section-label">06 / START A PROJECT</p>
+      <p class="section-label">12 / START A PROJECT</p>
       <div class="contact-grid">
         <h2>Have an idea?<br><em>Let's make it real.</em></h2>
         <div>
           <p>Tell me what you're imagining, even if it's only a rough idea. I'll get back to you to discuss the project, materials, dimensions and next steps.</p>
+          <form class="newsletter-form" data-newsletter-form><label for="newsletter-email">Workshop notes, occasionally</label><div><input id="newsletter-email" type="email" placeholder="Your email address" required><button class="button button-dark" type="submit">Subscribe <span>→</span></button></div><p class="form-message" aria-live="polite"></p></form>
           <a class="button button-dark" href="mailto:hello@example.com">Get in touch <span>→</span></a>
         </div>
       </div>

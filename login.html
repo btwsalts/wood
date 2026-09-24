@@ -20,14 +20,16 @@
   <main class="auth-main">
     <section class="auth-panel" aria-labelledby="login-title">
       <p class="section-label">WELCOME BACK</p>
+      <p class="auth-mode">Preview mode · account connection coming soon</p>
       <h1 id="login-title">Back to the<br><em>workshop.</em></h1>
       <p class="auth-intro">Log in to follow your commission, review project details, and keep in touch.</p>
+      <ul class="auth-benefits"><li>Save favorite pieces</li><li>Keep your commission brief close</li></ul>
       <form class="auth-form" data-auth-form>
         <label for="login-email">Email address</label>
         <input id="login-email" name="email" type="email" autocomplete="email" required>
         <label for="login-password">Password</label>
-        <input id="login-password" name="password" type="password" autocomplete="current-password" required>
-        <div class="form-row"><label class="check-label"><input type="checkbox" name="remember"> <span>Remember me</span></label><a href="#">Forgot password?</a></div>
+        <div class="password-field"><input id="login-password" name="password" type="password" autocomplete="current-password" required><button class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></div>
+        <div class="form-row"><label class="check-label"><input type="checkbox" name="remember"> <span>Remember me</span></label><a href="mailto:hello@example.com?subject=Password%20reset">Forgot password?</a></div>
         <button class="button button-dark" type="submit">Log in <span>→</span></button>
         <p class="form-message" aria-live="polite"></p>
       </form>

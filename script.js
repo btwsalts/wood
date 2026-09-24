@@ -2,14 +2,33 @@ const toggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".nav");
 
 toggle?.addEventListener("click", () => nav.classList.toggle("open"));
+toggle?.setAttribute("aria-expanded", "false");
+toggle?.addEventListener("click", () => toggle.setAttribute("aria-expanded", String(nav.classList.contains("open"))));
 
 document.querySelectorAll(".nav a").forEach(link => {
   link.addEventListener("click", () => nav.classList.remove("open"));
 });
 
 const header = document.querySelector(".site-header");
+const scrollProgress = document.querySelector(".scroll-progress");
+const parallaxTargets = document.querySelectorAll(".hero-image, .about-image, .journal-image");
+let scrollFrame;
+
+function updateScrollMotion() {
+  const scrollRange = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollRatio = scrollRange > 0 ? window.scrollY / scrollRange : 0;
+  if (scrollProgress) scrollProgress.style.transform = `scaleX(${scrollRatio})`;
+  parallaxTargets.forEach(target => {
+    const rect = target.getBoundingClientRect();
+    const distanceFromCenter = rect.top + rect.height / 2 - window.innerHeight / 2;
+    target.style.setProperty("--parallax", `${Math.max(-22, Math.min(22, distanceFromCenter * -0.035))}px`);
+  });
+  scrollFrame = undefined;
+}
+
 window.addEventListener("scroll", () => {
   if (!header) return;
+  header.classList.toggle("is-scrolled", window.scrollY > 40);
   if (window.scrollY > 40) {
     header.style.background = "rgba(29,27,24,.92)";
     header.style.backdropFilter = "blur(12px)";
@@ -17,6 +36,37 @@ window.addEventListener("scroll", () => {
     header.style.background = "rgba(29,27,24,.82)";
     header.style.backdropFilter = "blur(18px) saturate(130%)";
   }
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScrollMotion);
+});
+updateScrollMotion();
+
+const navSections = [...document.querySelectorAll(".nav a[href^='#']")]
+  .map(link => ({ link, section: document.querySelector(link.getAttribute("href")) }))
+  .filter(item => item.section);
+if ("IntersectionObserver" in window && navSections.length) {
+  const navObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      navSections.forEach(item => item.link.removeAttribute("aria-current"));
+      navSections.find(item => item.section === entry.target)?.link.setAttribute("aria-current", "page");
+    });
+  }, { rootMargin: "-35% 0px -55%", threshold: 0 });
+  navSections.forEach(item => navObserver.observe(item.section));
+}
+
+document.querySelectorAll("[data-filter]").forEach(filterButton => {
+  filterButton.addEventListener("click", () => {
+    const selectedFilter = filterButton.dataset.filter;
+    document.querySelectorAll("[data-filter]").forEach(button => {
+      const isSelected = button === filterButton;
+      button.classList.toggle("is-active", isSelected);
+      button.setAttribute("aria-pressed", String(isSelected));
+    });
+    document.querySelectorAll("[data-project-key]").forEach(projectCard => {
+      const matches = selectedFilter === "all" || projectCard.dataset.category === selectedFilter;
+      projectCard.hidden = !matches;
+    });
+  });
 });
 
 document.querySelectorAll("[data-auth-form]").forEach(form => {
@@ -27,12 +77,161 @@ document.querySelectorAll("[data-auth-form]").forEach(form => {
   });
 });
 
+document.querySelectorAll(".password-toggle").forEach(toggleButton => {
+  toggleButton.addEventListener("click", () => {
+    const passwordInput = toggleButton.closest(".password-field")?.querySelector("input");
+    if (!passwordInput) return;
+    const shouldShow = passwordInput.type === "password";
+    passwordInput.type = shouldShow ? "text" : "password";
+    toggleButton.textContent = shouldShow ? "Hide" : "Show";
+    toggleButton.setAttribute("aria-label", `${shouldShow ? "Hide" : "Show"} password`);
+    toggleButton.setAttribute("aria-pressed", String(shouldShow));
+  });
+});
+
 document.querySelectorAll("[data-inquiry-form]").forEach(form => {
   form.addEventListener("submit", event => {
     event.preventDefault();
     form.querySelector(".form-message").textContent = "Thank you — your inquiry has been received. We will be in touch soon.";
     form.reset();
   });
+});
+
+const estimateLabels = {
+  1500: "$1,000 - $2,000",
+  3000: "$2,000 - $4,000",
+  5500: "$4,000 - $7,000",
+  8000: "$7,000+"
+};
+
+const savedBriefTarget = document.querySelector("[data-saved-brief]");
+const favoritesTarget = document.querySelector("[data-favorites]");
+const favoriteGrid = document.querySelector("[data-favorite-grid]");
+const favoriteCount = document.querySelector("[data-favorite-count]");
+const briefStatus = document.querySelector("[data-brief-status]");
+
+function renderDashboard() {
+  const brief = JSON.parse(localStorage.getItem("oak-grain-brief") || "null");
+  const favorites = JSON.parse(localStorage.getItem("oak-grain-favorites") || "[]");
+  if (briefStatus) briefStatus.textContent = brief ? "Brief saved" : "Not started";
+  if (savedBriefTarget && brief) {
+    savedBriefTarget.textContent = `${brief.piece} in ${brief.wood}, ${brief.size.toLowerCase()} size, planned around ${estimateLabels[brief.budget] || brief.budget}. Reference: ${brief.reference}.`;
+  }
+  if (favoriteCount) favoriteCount.textContent = `${favorites.length} saved`;
+  if (favoriteGrid) {
+    if (!favorites.length) {
+      favoriteGrid.innerHTML = "<p data-favorites>No saved pieces yet. Tap the heart on a project you love.</p>";
+    } else {
+      const favoriteCards = favorites.map(title => {
+        const projectCard = [...document.querySelectorAll("[data-project-key]")].find(card => card.querySelector("h3")?.textContent.trim() === title);
+        if (!projectCard) return "";
+        const image = projectCard.querySelector("img").src;
+        const link = projectCard.querySelector("h3 a").href;
+        return `<a class="favorite-card" href="${link}"><img src="${image}" alt=""><span>${title}</span></a>`;
+      }).join("");
+      favoriteGrid.innerHTML = favoriteCards;
+    }
+  }
+  document.querySelectorAll(".favorite-button").forEach(button => {
+    const projectCard = button.closest("[data-project-key]");
+    const title = projectCard?.querySelector("h3")?.textContent.trim();
+    const saved = favorites.includes(title);
+    button.textContent = saved ? "♥" : "♡";
+    button.setAttribute("aria-pressed", String(saved));
+    button.setAttribute("aria-label", `${saved ? "Remove" : "Save"} ${title}`);
+  });
+}
+
+document.querySelectorAll(".favorite-button").forEach(button => {
+  button.addEventListener("click", () => {
+    const title = button.closest("[data-project-key]")?.querySelector("h3")?.textContent.trim();
+    const favorites = JSON.parse(localStorage.getItem("oak-grain-favorites") || "[]");
+    const nextFavorites = favorites.includes(title) ? favorites.filter(item => item !== title) : [...favorites, title];
+    localStorage.setItem("oak-grain-favorites", JSON.stringify(nextFavorites));
+    renderDashboard();
+  });
+});
+
+const builderForm = document.querySelector("[data-builder-form]");
+if (builderForm) {
+  const estimate = builderForm.querySelector("[data-estimate]");
+  const estimateCopy = builderForm.querySelector("[data-estimate-copy]");
+  const inquiryLink = builderForm.querySelector("[data-builder-inquiry]");
+  const referenceInput = builderForm.querySelector("input[type='file']");
+  const referencePreview = builderForm.querySelector("[data-reference-preview]");
+  const referenceImage = referencePreview?.querySelector("img");
+  const referenceName = referencePreview?.querySelector("[data-reference-name]");
+  let referenceObjectUrl;
+  const builderSteps = [...builderForm.querySelectorAll("[data-builder-step]")];
+  const progressSteps = [...document.querySelectorAll("[data-progress-step]")];
+  let activeStep = 1;
+  const showBuilderStep = stepNumber => {
+    activeStep = stepNumber;
+    builderSteps.forEach(step => step.classList.toggle("is-active", Number(step.dataset.builderStep) === stepNumber));
+    progressSteps.forEach(step => step.classList.toggle("is-active", Number(step.dataset.progressStep) === stepNumber));
+  };
+  builderForm.querySelectorAll(".builder-next").forEach(button => button.addEventListener("click", () => showBuilderStep(Math.min(activeStep + 1, builderSteps.length))));
+  builderForm.querySelectorAll(".builder-back").forEach(button => button.addEventListener("click", () => showBuilderStep(Math.max(activeStep - 1, 1))));
+  const updateEstimate = () => {
+    const formData = new FormData(builderForm);
+    const price = Number(formData.get("budget"));
+    estimate.textContent = estimateLabels[price];
+    estimateCopy.textContent = `Based on a ${formData.get("size").toLowerCase()} ${formData.get("wood").toLowerCase()} ${formData.get("piece").toLowerCase()}. The final quote follows a design conversation.`;
+  };
+  builderForm.addEventListener("input", updateEstimate);
+  builderForm.addEventListener("change", updateEstimate);
+  referenceInput?.addEventListener("change", () => {
+    const file = referenceInput.files[0];
+    if (referenceObjectUrl) URL.revokeObjectURL(referenceObjectUrl);
+    if (!file || !referencePreview || !referenceImage || !referenceName) {
+      referencePreview?.setAttribute("hidden", "");
+      return;
+    }
+    referenceObjectUrl = URL.createObjectURL(file);
+    referenceImage.src = referenceObjectUrl;
+    referenceName.textContent = file.name;
+    referencePreview.removeAttribute("hidden");
+  });
+  builderForm.addEventListener("submit", event => {
+    event.preventDefault();
+    const values = Object.fromEntries(new FormData(builderForm));
+    values.reference = builderForm.querySelector("input[type='file']").files[0]?.name || "No reference image";
+    localStorage.setItem("oak-grain-brief", JSON.stringify(values));
+    builderForm.querySelector(".form-message").textContent = "Your brief is saved in the project desk below.";
+    const subject = `${values.piece} commission inquiry`;
+    const body = [
+      "Hello, I would like to discuss a custom piece.",
+      "",
+      `Piece: ${values.piece}`,
+      `Wood: ${values.wood}`,
+      `Size: ${values.size}`,
+      `Budget: ${estimateLabels[values.budget] || values.budget}`,
+      `Reference image: ${values.reference}`,
+      "",
+      `Notes: ${values.notes || "No additional notes"}`
+    ].join("\n");
+    inquiryLink.href = `mailto:hello@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    inquiryLink.hidden = false;
+    renderDashboard();
+  });
+}
+
+document.querySelectorAll("[data-newsletter-form]").forEach(form => {
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    localStorage.setItem("oak-grain-newsletter", form.querySelector("input").value);
+    form.querySelector(".form-message").textContent = "You are on the list. I will send the next workshop note your way.";
+    form.reset();
+  });
+});
+
+renderDashboard();
+
+document.querySelector("[data-clear-dashboard]")?.addEventListener("click", () => {
+  localStorage.removeItem("oak-grain-brief");
+  localStorage.removeItem("oak-grain-favorites");
+  renderDashboard();
+  if (savedBriefTarget) savedBriefTarget.textContent = "No brief saved yet. Build one above to see it here.";
 });
 
 const projects = {
@@ -73,11 +272,4 @@ if ("IntersectionObserver" in window) {
   revealTargets.forEach(target => revealObserver.observe(target));
 } else {
   revealTargets.forEach(target => target.classList.add("is-visible"));
-}
-
-const testimonialTrack = document.querySelector(".testimonial-track");
-if (testimonialTrack) {
-  const duplicate = testimonialTrack.firstElementChild.cloneNode(true);
-  duplicate.setAttribute("aria-hidden", "true");
-  testimonialTrack.appendChild(duplicate);
 }
