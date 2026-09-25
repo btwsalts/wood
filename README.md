@@ -194,3 +194,59 @@ This project demonstrates:
 ## Author
 
 Built by **btwsalts** as a web-development project.
+
+---
+
+## ✦ Visual Showcase
+
+<p align="center">
+<img src="https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=1800&q=85" alt="Oak & Grain" width="100%">
+</p>
+
+<table>
+<tr>
+<td><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85" alt="Walnut Lounge"></td>
+<td><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=85" alt="Oak Dining Table"></td>
+</tr>
+<tr>
+<td><img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=900&q=85" alt="Studio Chair"></td>
+<td><img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=900&q=85" alt="Lowline Cabinet"></td>
+</tr>
+</table>
+
+## 🛠️ Stack at a Glance
+
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![LocalStorage](https://img.shields.io/badge/Browser%20Storage-000000?style=flat-square)
+
+## 🧠 Architecture
+
+~~~mermaid
+flowchart LR
+A[Visitor] --> B[Homepage]
+B --> C[Work Gallery]
+B --> D[Commission Builder]
+D --> E[Planning Estimate]
+D --> F[Saved Brief]
+C --> G[Favorites]
+F --> H[localStorage]
+G --> H
+~~~
+
+## 💡 What Makes It Interesting
+
+- Multi-step commission UX instead of a simple contact form
+- Persistent browser state without a backend
+- Dynamic work filtering
+- Reference-image preview
+- Editorial layout system
+- Responsive experience designed around large photography
+
+<details>
+<summary><strong>Portfolio talking points</strong></summary>
+
+This project can be discussed as an example of combining visual design with practical frontend engineering. The commission builder is especially useful for demonstrating state management, form logic, browser storage and user-flow design.
+
+</details>
